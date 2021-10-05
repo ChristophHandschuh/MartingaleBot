@@ -21,7 +21,7 @@ def check_for_message_date():
     y = json.loads(x.text)
     return y["result"][len(y["result"]) - 1]["message"]["date"]
 
-def news(message_telegram, symbol, quantity):
+def news(message_telegram, symbol, quantity, mtg, threshold):
     if message_telegram == "money" or message_telegram == "/money" or message_telegram == "wallet" or message_telegram == "/wallet":
         f = open("USDT.txt", "r")
         z = f.readline()
@@ -37,7 +37,7 @@ def news(message_telegram, symbol, quantity):
         send_message(f"History:\n{f.read()}", config.chad_id)
         f.close()
     if message_telegram == "help":
-        send_message(f"Money - /wallet or /money\nHistory - /history\nNew Coin - /change_coin\nNew Quantity - /change_quantity", config.chad_id)
+        send_message(f"Money - /wallet or /money\nHistory - /history\nTrades(mtg) - /change_mtg\nNew Coin - /change_coin\nNew Quantity - /change_quantity\nchange percent - /change_percent", config.chad_id)
     if message_telegram == "restart orderhistory" or message_telegram == "restart history":
         with open("OrderHistory.txt", 'r+') as f:
             f.truncate(0)
@@ -52,4 +52,10 @@ def news(message_telegram, symbol, quantity):
         print(symbol)
         send_message(f"Coin now: {symbol}\nPlease write new coin!   /exit", config.chad_id)
         return 3
+    if message_telegram == "change mtg" or message_telegram == "trades" or message_telegram == "/change_mtg":
+        send_message(f"MTG now: {mtg}\nPlease write new mtg!   /exit", config.chad_id)
+        return 4
+    if message_telegram == "percent" or message_telegram == "change percent" or message_telegram == "/change_percent":
+        send_message(f"Percent now: {threshold}\nPlease write new percent!   /exit", config.chad_id)
+        return 5
     return False
