@@ -62,3 +62,17 @@ def sell(symbol, quantity):
         f.write(str(usdt + usdtcurrent))
         f.close()
         return 200
+
+def Quantity(mtg, symbol):
+    global money, symbolprice, quantity
+    symbolprice = requests.get('https://api.binance.com/api/v3/ticker/price?symbol=' + symbol.upper())
+    symbolprice = json.loads(symbolprice.text)
+    symbolprice = float(symbolprice["price"])
+    f = open("USDT.txt", "r")
+    money = float(f.read())
+    f.close()
+    quantity = money/float(symbolprice)
+    quantity = quantity/float(mtg)
+    quantity = "%.2f" % quantity
+    print(quantity)
+    return quantity
